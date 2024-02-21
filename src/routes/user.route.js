@@ -2,8 +2,10 @@ import { Router } from "express";
 import { 
     createUser,
     getAllUsers,
-    getUserByName
- } from "../controllers/user.controller.js"
+    getUserByName,
+    updatePassword,
+    deleteUser
+ } from "../controllers/user.controller.js";
 
 const userRoute = Router();
 
@@ -30,5 +32,9 @@ userRoute.get("/user-find-name", async (req, res) => {
     res
     .json({userFindName});
 });
+
+userRoute.patch("/update-password/:id", updatePassword);
+
+userRoute.delete("/delete-user/:id", deleteUser);
 
 export { userRoute }

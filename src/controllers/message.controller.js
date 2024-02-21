@@ -17,4 +17,28 @@ const getMessageById = async (id) => {
     return await MessageEntity.findByPk(id);
 }
 
-export { createMessage, getAllMessages, getMessageById }
+const updateMessage = async (req, res) => {
+    const { id } = req.params;
+    const { newMessage } = req.body;
+    await MessageEntity.update({message: newMessage}, {
+        where: {
+            id
+        }
+    });
+    const messageUpdate = await MessageEntity.findByPk(id);
+    res.json({messageUpdate});
+}
+
+const deleteMessage = async (req, res) => {
+    const { id } = req.params;
+    await MessageEntity.destroy({
+        where: {
+            id
+        }
+    });
+    res.json({
+        message: "Mensagem deletada com sucesso!"
+    })
+}
+
+export { createMessage, getAllMessages, getMessageById, updateMessage, deleteMessage }

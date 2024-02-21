@@ -21,4 +21,28 @@ const getUserByName = async (name) => {
     })
 }
 
-export { createUser, getAllUsers, getUserByName }
+const updatePassword = async (req, res) => {
+    const { id } = req.params;
+    const { newPassword } = req.body;
+    await UserEntity.update({password: newPassword}, {
+        where: {
+            id
+        }
+    });
+    const messageUpdate = await UserEntity.findByPk(id)
+    res.json({messageUpdate});
+}
+
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    await UserEntity.destroy({
+        where: {
+            id
+        }
+    });
+    res.json({
+        message: "Usuário deletado com sucesso!"
+    });
+}
+
+export { createUser, getAllUsers, getUserByName, updatePassword, deleteUser }

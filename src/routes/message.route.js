@@ -2,7 +2,9 @@ import { Router } from "express";
 import { 
     createMessage,
     getAllMessages,
-    getMessageById
+    getMessageById,
+    updateMessage,
+    deleteMessage
  } from "../controllers/message.controller.js";
 
 const messageRoute = Router();
@@ -30,5 +32,9 @@ messageRoute.get("/message-find-id/:id", async (req, res) => {
     res
     .json({messageFindId});
 });
+
+messageRoute.patch("/message-update/:id", updateMessage);
+
+messageRoute.delete("/delete-message/:id", deleteMessage);
 
 export { messageRoute }
