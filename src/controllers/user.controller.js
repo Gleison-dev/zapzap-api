@@ -1,24 +1,32 @@
 import { UserEntity } from "../entities/User.entity.js";
-import { sequelize as database } from "../database/connection.js";
 
-const createUser = async (name, email, password) => {
-    await database.sync();
+const createUser = async (req, res) => {
+    await UserEntity.sync();
+    const { name, email, password } = req.body;
     const newUser = await UserEntity.create({
         name, email, password
     });
-    return newUser;
+    res
+    .status(201)
+    .json({
+        message: "Usuário criado com sucesso!",
+        newUser
+    });
 }
 
-const getAllUsers = async () => {
-    return await UserEntity.findAll();
+const getAllUsers = async (req, res) => {
+    const users = await UserEntity.findAll();
+    res.json({users});
 }
 
-const getUserByName = async (name) => {
-    return await UserEntity.findOne({
+const getUserByName = async (req, res) => {
+    const { name } = req.body;
+    const UserFindName = await UserEntity.findOne({
         where: {
             name
         }
-    })
+    });
+    res.json({UserFindName});
 }
 
 const updatePassword = async (req, res) => {
