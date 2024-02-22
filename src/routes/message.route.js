@@ -9,29 +9,11 @@ import {
 
 const messageRoute = Router();
 
-messageRoute.post("/new-message", async (req, res) => {
-    const { message } = req.body;
-    const newMessage = await createMessage(message);
-    res
-    .status(201)
-    .json({
-        message: "Mensagem criada com sucesso!",
-        newMessage
-    });
-});
+messageRoute.post("/new-message", createMessage);
 
-messageRoute.get("/messages", async (req, res) => {
-    const messages = await getAllMessages();
-    res
-    .json({messages});
-});
+messageRoute.get("/messages", getAllMessages);
 
-messageRoute.get("/message-find-id/:id", async (req, res) => {
-    const id = req.params.id;
-    const messageFindId = await getMessageById(id);
-    res
-    .json({messageFindId});
-});
+messageRoute.get("/message-find-id/:id", getMessageById)
 
 messageRoute.patch("/message-update/:id", updateMessage);
 

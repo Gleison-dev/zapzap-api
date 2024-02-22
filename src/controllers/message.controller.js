@@ -1,20 +1,27 @@
 import { MessageEntity } from "../entities/Message.entity.js";
-import { sequelize as database } from "../database/connection.js";
 
-const createMessage = async (message) => {
-    await database.sync();
+const createMessage = async (req, res) => {
+    const { message } = req.body;
     const newMessage = await MessageEntity.create({
         message
     });
-    return newMessage;
+    res
+    .status(201)
+    .json({
+        message: "Mensagem criada com sucesso!",
+        newMessage
+    });
 }
 
-const getAllMessages = async () => {
-    return await MessageEntity.findAll();
+const getAllMessages = async (req, res) => {
+    const messages = await MessageEntity.findAll();
+    res.json({messages});
 }
 
-const getMessageById = async (id) => {
-    return await MessageEntity.findByPk(id);
+const getMessageById = async (req, res) => {
+    const { id } = req.params;
+    const messageFindId = await MessageEntity.findByPk(id);
+    res.json({messageFindId});
 }
 
 const updateMessage = async (req, res) => {
